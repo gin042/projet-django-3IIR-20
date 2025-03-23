@@ -15,4 +15,3 @@ Dans un monde où la communication instantanée est essentielle, notre **applica
 **Pourquoi ce projet ?**  
 Contrairement aux applications complexes, notre solution privilégie **la simplicité et l’efficacité**, idéale pour un projet local et éducatif.  
 
-Besoin d’ajouter un détail ou une amélioration ? 🚀
