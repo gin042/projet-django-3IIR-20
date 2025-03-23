@@ -1,7 +1,7 @@
 **Pitch du Projet : Application de Chat**  
-Réalisée par :  Berbich Safie-Eddine 
-                Youssef Benammar
-                Salah-Eddine Bouayadi
+Réalisée par :  -Berbich Safie-Eddine 
+                -Youssef Benammar
+                -Salah-Eddine Bouayadi
 
 **Introduction :**  
 Dans un monde où la communication instantanée est essentielle, notre **application de chat** offre un moyen simple et efficace d'échanger des messages en temps réel. Ce projet, conçu pour un environnement **local (localhost)** dans le cadre scolaire, met l’accent sur la rapidité et la simplicité.  
