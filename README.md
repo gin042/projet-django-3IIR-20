@@ -1,6 +1,6 @@
 **Pitch du Projet : Application de Chat**  
 Réalisée par :  -Berbich Safie-Eddine 
-                -Youssef Benammar
+                -Youssef Benamar
                 -Salah-Eddine Bouayadi
 
 **Introduction :**  
