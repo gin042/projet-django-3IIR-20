@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+lib/
+# if using pipenv
+.pipenv/
+
+# Django
+*.log
+*.pot
+*.mo
+*.sqlite3
+db.sqlite3
+/media
+/static
+# if using a custom staticfiles dir for development
+# /my_project_static/
+
+# IDEs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+.Trash/
+Thumbs.db
+
+# Environment variables (Crucial for security!)
+.env
