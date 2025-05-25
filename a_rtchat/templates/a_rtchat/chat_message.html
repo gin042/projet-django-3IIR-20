@@ -1,43 +1,22 @@
 {% if message.author == user %}
-<li class="flex justify-end mb-4">
-  <div class="bg-green-200 rounded-l-lg rounded-tr-lg p-4 max-w-[75%]">
-    <span>{{message.body}}</span>
-  </div>
-  <div class="flex items-end">
-    <svg height="13" width="8">
-      <path
-        fill="#bbf7d0"
-        d="M6.3,10.4C1.5,8.7,0.9,5.5,0,0.2L0,13l5.2,0C7,13,9.6,11.5,6.3,10.4z"
-      />
-    </svg>
+<li style="margin-bottom:16px; text-align:right; list-style:none;">
+  <div style="display:inline-block; background:#e0ffe0; border:1px solid #b2d8b2; padding:10px 16px; max-width:75%; border-radius:8px; color:#225522; font-family:Verdana, Arial, Helvetica, sans-serif;">
+    <span>{{ message.body }}</span>
   </div>
 </li>
 {% else %}
-<li>
-  <div class="flex justify-start">
-    <div class="flex items-end mr-2">
-      <a href="{% url 'profile' message.author.username %}">
-        <img
-          class="w-8 h-8 rounded-full object-cover"
-          src="{{message.author.profile.avatar}}"
-        />
-      </a>
-    </div>
-    <div class="flex items-end">
-      <svg height="13" width="8">
-        <path
-          fill="white"
-          d="M2.8,13L8,13L8,0.2C7.1,5.5,6.5,8.7,1.7,10.4C-1.6,11.5,1,13,2.8,13z"
-        ></path>
-      </svg>
-    </div>
-    <div class="bg-white p-4 max-w-[75%] rounded-r-lg rounded-tl-lg">
-      <span>{{message.body}}</span>
+<li style="margin-bottom:16px; text-align:left; list-style:none;">
+  <div style="display:flex; align-items:flex-end;">
+    <a href="{% url 'profile' message.author.username %}" style="margin-right:8px;">
+      <img src="{{ message.author.profile.avatar }}" alt="avatar" style="width:32px; height:32px; border-radius:50%; border:1px solid #ccc; vertical-align:middle;">
+    </a>
+    <div style="display:inline-block; background:#fff; border:1px solid #ccc; padding:10px 16px; max-width:75%; border-radius:8px; color:#222; font-family:Verdana, Arial, Helvetica, sans-serif;">
+      <span>{{ message.body }}</span>
     </div>
   </div>
-  <div class="text-sm font-light py-1 ml-10">
-    <span class="text-white">{{message.author.profile.name}}</span>
-    <span class="text-gray-400">@{{message.author.username}}</span>
+  <div style="font-size:0.95em; color:#003366; margin-left:40px; margin-top:2px;">
+    <span>{{ message.author.profile.name }}</span>
+    <span style="color:#888;">@{{ message.author.username }}</span>
   </div>
 </li>
 {% endif %}

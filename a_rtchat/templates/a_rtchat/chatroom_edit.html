@@ -1,48 +1,93 @@
 {% extends 'layouts/box.html' %} {% block content %}
 
-<h1>Edit Chat</h1>
+<h1
+  style="
+    font-size: 1.5em;
+    color: #003366;
+    border-bottom: 2px solid #003366;
+    margin-bottom: 18px;
+    padding-bottom: 6px;
+  "
+>
+  Edit Chat
+</h1>
 
-<form method="post">
-  {% csrf_token %} {{ form }}
+<form method="post" style="max-width: 600px; margin: 0 auto">
+  {% csrf_token %} {{ form.as_p }}
 
-  <div class="my-4">
-    <h2>Members</h2>
+  <div style="margin: 24px 0">
+    <h2 style="font-size: 1.2em; color: #003366; margin-bottom: 10px">
+      Members
+    </h2>
     {% for member in chat_group.members.all %}
-    <div class="flex justify-between items-center">
-      <div class="flex items-center gap-2 py-2">
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        padding: 10px 0;
+      "
+    >
+      <div style="display: flex; align-items: center">
         <img
-          class="w-14 h-14 rounded-full object-cover"
           src="{{ member.profile.avatar }}"
+          alt="avatar"
+          style="
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+          "
         />
         <div>
-          <span class="font-bold">{{ member.profile.name }}</span>
-          <span class="text-sm font-light text-gray-600"
+          <span style="font-weight: bold">{{ member.profile.name }}</span>
+          <span style="color: #888; font-size: 0.95em"
             >@{{ member.username }}</span
           >
         </div>
       </div>
-
       {% if member != chat_group.admin %}
-      <div class="inline-block pr-4">
+      <div>
         <input
           type="checkbox"
           name="remove_members"
           value="{{ member.id }}"
-          class="relative p-5 cursor-pointer appearance-none rounded-md border after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[url('https://img.icons8.com/ffffff/32/multiply.png')] after:bg-center checked:bg-red-500 hover:ring hover:ring-gray-300 focus:outline-none"
+          style="margin-left: 12px"
         />
+        Remove
       </div>
       {% endif %}
     </div>
     {% endfor %}
   </div>
 
-  <button class="mt-2" type="submit">Update</button>
+  <button
+    type="submit"
+    style="
+      background: #e0e0e0;
+      color: #003366;
+      border: 1px solid #888;
+      border-radius: 3px;
+      padding: 8px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 12px;
+    "
+  >
+    Update
+  </button>
 </form>
 
-<a
-  href="{% url 'chatroom-delete' chat_group.group_name %}"
-  class="flex justify-end mt-4 text-gray-400 hover:text-red-500"
-  >Delete Chatroom</a
->
+<div style="text-align: right; margin-top: 24px">
+  <a
+    href="{% url 'chatroom-delete' chat_group.group_name %}"
+    style="color: #888; text-decoration: underline; font-weight: bold"
+    onmouseover="this.style.color='#990000';"
+    onmouseout="this.style.color='#888';"
+    >Delete Chatroom</a
+  >
+</div>
 
 {% endblock %}

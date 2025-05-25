@@ -2,14 +2,20 @@
 
 {% block content %} 
 
-<h1>Delete this chatroom?</h1>
+<h1 style="font-size:1.5em; color:#990000; border-bottom:2px solid #990000; margin-bottom:18px; padding-bottom:6px;">
+    Delete this chatroom?
+</h1>
 
-<h2>"{{ chat_group.groupchat_name }}"</h2>
+<h2 style="font-size:1.2em; color:#003366; margin-bottom:18px;">"{{ chat_group.groupchat_name }}"</h2>
 
-<form method='POST'>
+<form method="POST" style="margin-bottom:16px;">
     {% csrf_token %}
-    <button type="submit" class="button-red mt-4">Yes, delete</button>
-    <a class="button button-gray ml-1" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+    <button type="submit" style="background:#d9534f; color:#fff; border:1px solid #b52b27; border-radius:3px; padding:8px 18px; font-weight:bold; cursor:pointer;">
+        Yes, delete
+    </button>
+    <a href="{{ request.META.HTTP_REFERER }}" style="background:#e0e0e0; color:#003366; border:1px solid #888; border-radius:3px; padding:8px 18px; font-weight:bold; text-decoration:none; margin-left:8px;">
+        Cancel
+    </a>
 </form>
 
 {% endblock %}

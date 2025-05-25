@@ -1,14 +1,51 @@
-{% extends 'layouts/box.html' %}
+{% extends 'layouts/box.html' %} {% block content %}
 
-{% block content %}
+<h1
+  style="
+    font-size: 1.5em;
+    color: #990000;
+    border-bottom: 2px solid #990000;
+    margin-bottom: 18px;
+    padding-bottom: 6px;
+  "
+>
+  Delete Account
+</h1>
+<p style="color: #222; font-size: 1.1em; margin-bottom: 18px">
+  Are you sure you want to delete your account?
+</p>
 
-<h1>Delete Account</h1>
-<p>Are you sure you want to delete your account?</p>
-
-<form method='POST'>
-    {% csrf_token %}
-    <button type="submit" class="button-red mt-6">Yes, I want to delete my account</button>
-    <a class="button button-gray ml-1" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+<form method="POST" style="margin-bottom: 16px">
+  {% csrf_token %}
+  <button
+    type="submit"
+    style="
+      background: #d9534f;
+      color: #fff;
+      border: 1px solid #b52b27;
+      border-radius: 3px;
+      padding: 8px 18px;
+      font-weight: bold;
+      cursor: pointer;
+    "
+  >
+    Yes, I want to delete my account
+  </button>
+  <a
+    href="{{ request.META.HTTP_REFERER }}"
+    style="
+      background: #e0e0e0;
+      color: #003366;
+      border: 1px solid #888;
+      border-radius: 3px;
+      padding: 8px 18px;
+      font-weight: bold;
+      text-decoration: none;
+      margin-left: 8px;
+    "
+  >
+    Cancel
+  </a>
 </form>
 
 {% endblock %}

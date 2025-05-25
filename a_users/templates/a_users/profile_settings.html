@@ -1,76 +1,124 @@
-{% extends 'layouts/box.html' %}
+{% extends 'layouts/box.html' %} {% block content %}
 
-{% block content %}
+<h1
+  style="
+    font-size: 1.5em;
+    color: #003366;
+    border-bottom: 2px solid #003366;
+    margin-bottom: 18px;
+    padding-bottom: 6px;
+  "
+>
+  Account Settings
+</h1>
 
-<h1 class="mb-8">Account Settings</h1>
-
-<table class="w-full text-sm text-left text-gray-500">
-    <tbody>
-        <tr>
-            <th scope="row" class="pt-4 pb-1 text-base font-bold text-gray-900">
-                Email address
-            </th>
-            <td id="email-address" class="pt-4 pb-1 pl-4">
-                {% if user.email %}{{ user.email }}{% else %}No Email{% endif %}
-            </td>
-            <td class="pt-4 pb-1 pl-4">
-                <a id="email-edit" class="cursor-pointer font-medium text-blue-600 hover:underline"
-                    hx-get="{% url 'profile-emailchange' %}"
-                    hx-target="#email-address"
-                    hx-swap="innerHTML" >
-                    Edit
-                </a>
-            </td>
-        </tr>
-
-        <tr class="border-b">
-            <th scope="row" class="pb-4 font-medium text-gray-900">  
-            </th>
-            <td class="pb-4 pl-4">
-                {% if user.emailaddress_set.first.verified %}
-                <span class="text-green-500">Verified</span>{% else %}
-                <span class="text-amber-500">Not verified</span>
-                {% endif %}
-            </td>
-            <td class="pb-4 pl-4">
-                <a href="{% url 'profile-emailverify' %}" class="font-medium text-blue-600 hover:underline">
-                    {% if not user.emailaddress_set.first.verified %}Verify{% endif %}
-                </a>
-            </td>
-        </tr>
-
-        <tr class="border-b">
-            <th scope="row" class="py-4 text-base font-bold text-gray-900">
-                Username
-            </th>
-            <td id="username" class="py-4 pl-4">
-                {{ user.username }}
-            </td>
-            <td class="py-4 pl-4">
-                <a id="username-edit" class="cursor-pointer font-medium text-blue-600 hover:underline"
-                    hx-get="{% url 'profile-usernamechange' %}"
-                    hx-target="#username"
-                    hx-swap="innerHTML" >
-                    Edit
-                </a>
-            </td>
-        </tr>
-
-        <tr class="">
-            <th scope="row" class="py-4 text-base font-bold text-gray-900">
-                Delete Account
-            </th>
-            <td class="py-4 pl-4">
-                Once deleted, account is gone. Forever.
-            </td>
-            <td class="py-4 pl-4">
-                <a href="{% url 'profile-delete' %}" class="font-medium text-red-600 hover:underline">
-                    Delete
-                </a>
-            </td>
-        </tr>
-    </tbody>
+<table
+  style="
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1em;
+    color: #222;
+    margin-bottom: 24px;
+  "
+>
+  <tbody>
+    <tr style="border-bottom: 1px solid #ccc">
+      <th
+        align="left"
+        style="
+          padding: 12px 8px 8px 0;
+          font-weight: bold;
+          color: #003366;
+          width: 180px;
+        "
+      >
+        Email address
+      </th>
+      <td id="email-address" style="padding: 12px 8px">
+        {% if user.email %}{{ user.email }}{% else %}No Email{% endif %}
+      </td>
+      <td style="padding: 12px 8px">
+        <a
+          id="email-edit"
+          style="
+            color: #003366;
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+          "
+          hx-get="{% url 'profile-emailchange' %}"
+          hx-target="#email-address"
+          hx-swap="innerHTML"
+        >
+          Edit
+        </a>
+      </td>
+    </tr>
+    <tr style="border-bottom: 1px solid #ccc">
+      <th></th>
+      <td style="padding: 8px">
+        {% if user.emailaddress_set.first.verified %}
+        <span style="color: green">Verified</span>
+        {% else %}
+        <span style="color: #cc9900">Not verified</span>
+        {% endif %}
+      </td>
+      <td style="padding: 8px">
+        <a
+          href="{% url 'profile-emailverify' %}"
+          style="color: #003366; text-decoration: underline; font-weight: bold"
+        >
+          {% if not user.emailaddress_set.first.verified %}Verify{% endif %}
+        </a>
+      </td>
+    </tr>
+    <tr style="border-bottom: 1px solid #ccc">
+      <th
+        align="left"
+        style="padding: 12px 8px 8px 0; font-weight: bold; color: #003366"
+      >
+        Username
+      </th>
+      <td id="username" style="padding: 12px 8px">{{ user.username }}</td>
+      <td style="padding: 12px 8px">
+        <a
+          id="username-edit"
+          style="
+            color: #003366;
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+          "
+          hx-get="{% url 'profile-usernamechange' %}"
+          hx-target="#username"
+          hx-swap="innerHTML"
+        >
+          Edit
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <th
+        align="left"
+        style="padding: 12px 8px 8px 0; font-weight: bold; color: #990000"
+      >
+        Delete Account
+      </th>
+      <td style="padding: 12px 8px">
+        <span style="color: #990000"
+          >Once deleted, account is gone. Forever.</span
+        >
+      </td>
+      <td style="padding: 12px 8px">
+        <a
+          href="{% url 'profile-delete' %}"
+          style="color: #990000; text-decoration: underline; font-weight: bold"
+        >
+          Delete
+        </a>
+      </td>
+    </tr>
+  </tbody>
 </table>
-
 
 {% endblock %}

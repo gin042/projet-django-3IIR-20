@@ -1,9 +1,30 @@
-{% extends 'layouts/blank.html' %}
+{% extends 'layouts/blank.html' %} {% block content %}
 
-{% block content %} 
-
-    <div class="max-w-4xl mx-auto px-8 py-24">
-        <h1>New Project</h1>
-    </div>
+<div
+  style="
+    max-width: 600px;
+    margin: 60px auto 0 auto;
+    padding: 32px 24px;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 8px #eee;
+    text-align: center;
+  "
+>
+  <h1
+    style="
+      font-size: 2em;
+      color: #003366;
+      border-bottom: 2px solid #003366;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+    "
+  >
+    New Project
+  </h1>
+  <p style="color: #444; font-size: 1.1em">
+    Welcome to your new project homepage!
+  </p>
+</div>
 
 {% endblock %}

@@ -2,12 +2,16 @@
 
 {% block content %}
 
-<h1>Create a New Group Chat</h1>
-<form method="post">
+<h1 style="font-size:1.5em; color:#003366; border-bottom:2px solid #003366; margin-bottom:18px; padding-bottom:6px;">
+    Create a New Group Chat
+</h1>
+<form method="post" style="max-width:400px; margin:0 auto;">
     {% csrf_token %}
-{{form}}
-
-    <button type="submit" class="mt-2">Create Group Chat</button>
+    {{ form.as_p }}
+    <button type="submit" style="background:#e0e0e0; color:#003366; border:1px solid #888; border-radius:3px; padding:8px 18px; font-weight:bold; cursor:pointer; margin-top:12px;">
+        Create Group Chat
+    </button>
 </form>
-{%endblock %}
+
+{% endblock %}
 

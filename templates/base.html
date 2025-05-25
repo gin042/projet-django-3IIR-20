@@ -8,129 +8,136 @@
     <meta name="description" content="Django Template" />
     <title>Project Title</title>
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
-    <script
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-      defer
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
- <script src="https://unpkg.com/htmx-ext-ws@2.0.2"></script>
+    <script src="https://unpkg.com/htmx-ext-ws@2.0.2"></script>
     {% django_htmx_script %}
     <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
 
-
-    <style type="text/tailwindcss">
-      [x-cloak] {
-        display: none !important;
+    <style>
+      body {
+        background: #f0f0f0;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        color: #222;
+        margin: 0;
+        padding: 0;
       }
       h1 {
-        @apply text-4xl font-bold mb-4;
+        font-size: 2em;
+        color: #003366;
+        border-bottom: 2px solid #003366;
+        margin: 20px 0 10px 0;
+        padding-bottom: 5px;
       }
       h2 {
-        @apply text-xl font-bold mb-2;
+        font-size: 1.3em;
+        color: #003366;
+        margin: 15px 0 8px 0;
       }
       h3 {
-        @apply text-lg font-bold;
+        font-size: 1.1em;
+        color: #003366;
+        margin: 10px 0 5px 0;
       }
       p {
-        @apply mb-4;
+        margin: 10px 0;
       }
       .button,
       button,
       [type="submit"],
       [type="button"] {
-        @apply bg-indigo-600 text-white font-bold rounded-lg shadow-lg transition-all cursor-pointer;
-      }
-      .button,
-      button a,
-      [type="submit"],
-      [type="button"] {
-        @apply px-6 py-4 inline-block;
+        background: #e0e0e0;
+        color: #003366;
+        border: 1px solid #888;
+        border-radius: 3px;
+        padding: 8px 18px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 1px 2px #ccc;
+        margin: 2px;
       }
       .button:hover,
       button:hover,
       [type="submit"]:hover,
       [type="button"]:hover {
-        @apply bg-indigo-700;
+        background: #c0c0c0;
+        color: #000;
       }
-      .button:active,
-      button:active,
-      [type="submit"]:active,
-      [type="button"]:active {
-        @apply scale-95;
+      nav,
+      .navbar {
+        background: #003366;
+        color: #fff;
+        padding: 10px 20px;
+        border-bottom: 3px solid #6699cc;
       }
-      .button.alert,
-      button.alert {
-        @apply bg-red-700;
-      }
-      .button.alert:hover,
-      button.alert:hover {
-        @apply bg-red-600;
-      }
-      .button-red {
-        @apply !bg-red-500 hover:!bg-red-600;
-      }
-      .button-gray {
-        @apply !bg-gray-300 hover:!bg-[#c3c9d0];
+      .navitems > li {
+        display: inline;
+        margin-right: 15px;
       }
       .navitems > li > a {
-        @apply flex items-center gap-2 h-12 px-4 hover:bg-[rgba(31,41,55,0.3)] rounded-lg;
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
       }
-      .hoverlist > * {
-        @apply hover:bg-gray-100 rounded-md transition duration-150;
-      }
-      .hoverlist > * > a {
-        @apply flex items-center p-2;
-      }
-      .highlight {
-        @apply !bg-indigo-100;
-      }
-      .allauth content a {
-        @apply underline underline-offset-2;
-      }
-      .allauth content a:hover {
-        @apply text-indigo-500;
-      }
-      .allauth form[action="/accounts/signup/"] ul {
-        @apply hidden;
-      }
-      .allauth form[action="/accounts/signup/"] ul.errorlist {
-        @apply block;
-      }
-      .allauth .helptext {
-        @apply block mt-4;
+      .navitems > li > a:hover {
+        text-decoration: underline;
       }
       label {
-        @apply hidden;
+        display: inline-block;
+        margin-bottom: 5px;
+        font-weight: bold;
       }
-      input[type="file"] {
-        @apply bg-white pl-0;
-      }
-      .textarea,
+      input,
       textarea,
-      input {
-        @apply w-full rounded-lg py-4 px-5 bg-gray-100;
+      select {
+        border: 1px solid #888;
+        border-radius: 2px;
+        padding: 6px;
+        background: #fff;
+        margin-bottom: 10px;
+        width: 100%;
+        box-sizing: border-box;
       }
-      .errorlist li {
-        @apply p-1 pl-4 border-l-red-500 border-l-4 border-solid mb-2 text-red-500;
-      }
-      label[for="id_remember"] {
-        @apply inline-block w-auto mr-2;
-      }
-      input[name="remember"] {
-        @apply w-auto;
+      input[type="checkbox"],
+      input[type="radio"] {
+        width: auto;
+        margin-right: 5px;
       }
       .alert-info {
-        @apply bg-sky-500;
+        background: #d9edf7;
+        color: #31708f;
+        border: 1px solid #bce8f1;
+        padding: 10px;
+        margin-bottom: 10px;
       }
       .alert-success {
-        @apply bg-green-500;
+        background: #dff0d8;
+        color: #3c763d;
+        border: 1px solid #d6e9c6;
+        padding: 10px;
+        margin-bottom: 10px;
       }
       .alert-warning {
-        @apply bg-red-500;
+        background: #fcf8e3;
+        color: #8a6d3b;
+        border: 1px solid #faebcc;
+        padding: 10px;
+        margin-bottom: 10px;
       }
       .alert-danger {
-        @apply bg-red-500;
+        background: #f2dede;
+        color: #a94442;
+        border: 1px solid #ebccd1;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .container {
+        background: #fff;
+        margin: 30px auto;
+        padding: 20px 30px;
+        border: 1px solid #ccc;
+        max-width: 800px;
+        box-shadow: 2px 2px 8px #eee;
       }
     </style>
   </head>
@@ -138,7 +145,9 @@
     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
     class="{% block class %}{% endblock %}"
   >
-    {% include 'includes/messages.html' %} {% include 'includes/header.html' %}
-    {% block layout %} {% endblock %} {% block javascript %}{% endblock %}
+    {% include 'includes/messages.html' %}
+    {% include 'includes/header.html' %}
+    {% block layout %}{% endblock %}
+    {% block javascript %}{% endblock %}
   </body>
 </html>

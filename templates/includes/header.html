@@ -1,119 +1,287 @@
 {% load static %}
-<header class="flex items-center justify-between bg-gray-800 h-20 px-8 text-white sticky top-0 z-40">
-  <div>
-    <a class="flex items-center gap-2" href="/" aria-label="Home">
-      <img class="h-6" src="{% static 'images/logo.svg' %}" alt="Real-time Chat Logo" />
-      <span class="text-lg font-bold">Real-time Chat</span>
-    </a>
+<header
+  style="
+    background: #003366;
+    color: #fff;
+    border-bottom: 3px solid #6699cc;
+    height: 70px;
+  "
+>
+  <div style="height: 70px; max-width: 1100px; margin: 0 auto; padding: 0 24px">
+    <table width="100%" cellpadding="0" cellspacing="0" style="height: 70px">
+      <tr>
+        <td style="vertical-align: middle">
+          <a href="/" style="text-decoration: none; color: #fff">
+            <img
+              src="{% static 'images/logo.svg' %}"
+              alt="Real-time Chat Logo"
+              style="height: 40px; margin-right: 10px; vertical-align: middle"
+            />
+            <span
+              style="
+                font-size: 1.3em;
+                font-weight: bold;
+                vertical-align: middle;
+              "
+              >Chat</span
+            >
+          </a>
+        </td>
+        <td align="right" style="vertical-align: middle">
+          <nav>
+            <ul style="list-style: none; margin: 0; padding: 0">
+              {% if request.user.is_authenticated %}
+              <li style="display: inline; margin-left: 18px">
+                <a
+                  href="/"
+                  style="
+                    color: #fff;
+                    text-decoration: none;
+                    font-weight: bold;
+                    padding: 6px 12px;
+                  "
+                  >Home</a
+                >
+              </li>
+              <!-- Chat dropdown: click to toggle -->
+              <li
+                style="display: inline; margin-left: 18px; position: relative"
+              >
+                <a
+                  href="#"
+                  id="chat-dd-toggle"
+                  style="
+                    color: #fff;
+                    text-decoration: none;
+                    font-weight: bold;
+                    padding: 6px 12px;
+                  "
+                  onclick="toggleDropdown('chat-dd'); return false;"
+                >
+                  Chats &#9662;
+                </a>
+                <div
+                  id="chat-dd"
+                  style="
+                    display: none;
+                    position: absolute;
+                    left: 0;
+                    top: 100%;
+                    background: #fff;
+                    color: #003366;
+                    border: 1px solid #ccc;
+                    min-width: 180px;
+                    box-shadow: 2px 2px 8px #eee;
+                    z-index: 100;
+                    margin-top: 2px;
+                  "
+                >
+                  <a
+                    href="{% url 'home' %}"
+                    style="
+                      display: block;
+                      color: #003366;
+                      text-decoration: none;
+                      padding: 8px 16px;
+                    "
+                    >Public Chat</a
+                  >
+                  {% for chatroom in user.chat_groups.all %}
+                    {% if chatroom.groupchat_name %}
+                      <a
+                        href="{% url 'chatroom' chatroom.group_name %}"
+                        style="
+                          display: block;
+                          color: #003366;
+                          text-decoration: none;
+                          padding: 8px 16px;
+                        "
+                      >
+                        {{ chatroom.groupchat_name|truncatechars:24 }}
+                      </a>
+                    {% elif chatroom.is_private %}
+                      {% for member in chatroom.members.all %}
+                        {% if member != user %}
+                          <a
+                            href="{% url 'chatroom' chatroom.group_name %}"
+                            style="
+                              display: block;
+                              color: #003366;
+                              text-decoration: none;
+                              padding: 8px 16px;
+                            "
+                          >
+                            {{ member.profile.name|truncatechars:24 }}
+                          </a>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  {% empty %}
+                    <span
+                      style="
+                        display: block;
+                        color: #888;
+                        padding: 8px 16px;
+                        font-size: 0.95em;
+                      "
+                      >No chats available</span
+                    >
+                  {% endfor %}
+                </div>
+              </li>
+              <!-- Profile dropdown: click to toggle -->
+              <li
+                style="display: inline; margin-left: 18px; position: relative"
+              >
+                <a
+                  href="#"
+                  id="profile-dd-toggle"
+                  style="
+                    color: #fff;
+                    text-decoration: none;
+                    font-weight: bold;
+                    padding: 6px 12px;
+                  "
+                  onclick="toggleDropdown('profile-dd'); return false;"
+                >
+                  <img
+                    src="{{ request.user.profile.avatar|default:'/static/images/default-avatar.png' }}"
+                    alt="Profile picture"
+                    style="
+                      height: 32px;
+                      width: 32px;
+                      border-radius: 16px;
+                      border: 1px solid #ccc;
+                      vertical-align: middle;
+                      margin-right: 6px;
+                    "
+                  />
+                  {{ request.user.profile.name }} &#9662;
+                </a>
+                <div
+                  id="profile-dd"
+                  style="
+                    display: none;
+                    position: absolute;
+                    left: 0;
+                    top: 100%;
+                    background: #fff;
+                    color: #003366;
+                    border: 1px solid #ccc;
+                    min-width: 180px;
+                    box-shadow: 2px 2px 8px #eee;
+                    z-index: 100;
+                    margin-top: 2px;
+                  "
+                >
+                  <a
+                    href="{% url 'profile' %}"
+                    style="
+                      display: block;
+                      color: #003366;
+                      text-decoration: none;
+                      padding: 8px 16px;
+                    "
+                    >My Profile</a
+                  >
+                  <a
+                    href="{% url 'profile-edit' %}"
+                    style="
+                      display: block;
+                      color: #003366;
+                      text-decoration: none;
+                      padding: 8px 16px;
+                    "
+                    >Edit Profile</a
+                  >
+                  <a
+                    href="{% url 'new-groupchat' %}"
+                    style="
+                      display: block;
+                      color: #003366;
+                      text-decoration: none;
+                      padding: 8px 16px;
+                    "
+                    >Create Chat</a
+                  >
+                  <a
+                    href="{% url 'profile-settings' %}"
+                    style="
+                      display: block;
+                      color: #003366;
+                      text-decoration: none;
+                      padding: 8px 16px;
+                    "
+                    >Settings</a
+                  >
+                  <div style="border-top: 1px solid #eee; margin: 4px 0"></div>
+                  <a
+                    href="{% url 'account_logout' %}"
+                    style="
+                      display: block;
+                      color: #990000;
+                      text-decoration: none;
+                      padding: 8px 16px;
+                    "
+                    >Log Out</a
+                  >
+                </div>
+              </li>
+              {% else %}
+              <li style="display: inline; margin-left: 18px">
+                <a
+                  href="{% url 'account_login' %}"
+                  style="
+                    color: #fff;
+                    text-decoration: none;
+                    font-weight: bold;
+                    padding: 6px 12px;
+                  "
+                  >Login</a
+                >
+              </li>
+              <li style="display: inline; margin-left: 18px">
+                <a
+                  href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}"
+                  style="
+                    color: #fff;
+                    text-decoration: none;
+                    font-weight: bold;
+                    padding: 6px 12px;
+                  "
+                  >Sign Up</a
+                >
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+        </td>
+      </tr>
+    </table>
   </div>
-  
-  <nav class="block relative" aria-label="Main navigation">
-    <ul class="flex items-center justify-center h-full gap-6">
-      {% if request.user.is_authenticated %}
-      <li><a href="/" class="hover:text-blue-300 transition-colors">Home</a></li>
-
-      <!-- Chat Dropdown -->
-      <li x-data="{ chatDropdownOpen: false }" class="relative">
-        <button
-          @click="chatDropdownOpen = !chatDropdownOpen"
-          @click.away="chatDropdownOpen = false"
-          class="flex items-center gap-1 hover:text-blue-300 transition-colors"
-          aria-expanded="false"
-          x-bind:aria-expanded="chatDropdownOpen"
-          aria-haspopup="true"
-        >
-          Chats
-          <svg
-            x-bind:class="chatDropdownOpen && 'rotate-180'"
-            class="w-4 h-4 transition-transform"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-          </svg>
-        </button>
-        <div
-          x-show="chatDropdownOpen"
-          x-cloak
-          class="absolute right-0 mt-2 bg-white text-gray-800 shadow-lg rounded-lg w-48 py-1 z-20"
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0 translate-y-1"
-          x-transition:enter-end="opacity-100 translate-y-0"
-        >
-          <a href="{% url 'home' %}" class="block px-4 py-2 hover:bg-gray-100">Public Chat</a>
-          {% for chatroom in user.chat_groups.all %}
-            {% if chatroom.groupchat_name %}
-              <a href="{% url 'chatroom' chatroom.group_name %}" class="block px-4 py-2 hover:bg-gray-100 truncate">
-                {{ chatroom.groupchat_name|truncatechars:24 }}
-              </a>
-            {% elif chatroom.is_private %}
-              {% for member in chatroom.members.all %}
-                {% if member != user %}
-                  <a href="{% url 'chatroom' chatroom.group_name %}" class="block px-4 py-2 hover:bg-gray-100 truncate">
-                    {{ member.profile.name|truncatechars:24 }}
-                  </a>
-                {% endif %}
-              {% endfor %}
-            {% endif %}
-          {% empty %}
-            <span class="block px-4 py-2 text-gray-500 text-sm">No chats available</span>
-          {% endfor %}
-        </div>
-      </li>
-
-      <!-- Profile Dropdown -->
-      <li x-data="{ profileDropdownOpen: false }" class="relative">
-        <button
-          @click="profileDropdownOpen = !profileDropdownOpen"
-          @click.away="profileDropdownOpen = false"
-          class="flex items-center gap-2 hover:text-blue-300 transition-colors"
-          aria-expanded="false"
-          x-bind:aria-expanded="profileDropdownOpen"
-          aria-haspopup="true"
-        >
-          <img
-            class="h-8 w-8 rounded-full object-cover border border-gray-600"
-            src="{{ request.user.profile.avatar|default:'/static/images/default-avatar.png' }}"
-            alt="Profile picture"
-            onerror="this.src='/static/images/default-avatar.png'"
-          />
-          <span class="truncate max-w-[120px]">{{ request.user.profile.name }}</span>
-          <svg
-            x-bind:class="profileDropdownOpen && 'rotate-180'"
-            class="w-4 h-4 transition-transform"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-          </svg>
-        </button>
-        <div
-          x-show="profileDropdownOpen"
-          x-cloak
-          class="absolute right-0 mt-2 bg-white text-gray-800 shadow-lg rounded-lg w-48 py-1 z-20"
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0 translate-y-1"
-          x-transition:enter-end="opacity-100 translate-y-0"
-        >
-          <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-100">My Profile</a>
-          <a href="{% url 'profile-edit' %}" class="block px-4 py-2 hover:bg-gray-100">Edit Profile</a>
-          <a href="{% url 'new-groupchat' %}" class="block px-4 py-2 hover:bg-gray-100">Create Chat</a>
-          <a href="{% url 'profile-settings' %}" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
-          <div class="border-t border-gray-200 my-1"></div>
-          <a href="{% url 'account_logout' %}" class="block px-4 py-2 hover:bg-gray-100 text-red-600">Log Out</a>
-        </div>
-      </li>
-
-      {% else %}
-      <li><a href="{% url 'account_login' %}" class="hover:text-blue-300 transition-colors">Login</a></li>
-      <li>
-        <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}" class="hover:text-blue-300 transition-colors">
-          Sign Up
-        </a>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
 </header>
+<script>
+  // Simple dropdown toggle for 2000s style
+  function toggleDropdown(id) {
+    var el = document.getElementById(id);
+    var isOpen = el.style.display === "block";
+    // Close all dropdowns
+    document.querySelectorAll('header div[id$="-dd"]').forEach(function (dd) {
+      dd.style.display = "none";
+    });
+    // Toggle current
+    if (!isOpen) {
+      el.style.display = "block";
+      // Close dropdown if clicked outside
+      document.addEventListener("mousedown", function handler(e) {
+        if (
+          !el.contains(e.target) &&
+          !document.getElementById(id + "-toggle").contains(e.target)
+        ) {
+          el.style.display = "none";
+          document.removeEventListener("mousedown", handler);
+        }
+      });
+    }
+  }
+</script>

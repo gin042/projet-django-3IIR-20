@@ -2,18 +2,20 @@
 
 {% block content %}
 
-<div class="max-w-lg mx-auto flex flex-col items-center pt-20 px-4">
-    <img class="w-36 h-36 rounded-full object-cover mb-4" src="{{ profile.avatar }}" />
-    <div class="text-center">
-        <h1>{{ profile.name }}</h1>
-        <div class="text-gray-400 mb-2 -mt-3">@{{ profile.user.username }}</div>
-        {% if profile.info %}
-        <div class="mt-8 hyphens-auto">{{ profile.info|linebreaksbr }}</div>
-        {% endif %}  
-        {% if profile.user != user %}
-        <a class="button"href="{% url 'start-chat' profile.user.username %}">Chat with me</a>
-        {% endif %}
+<div style="max-width:400px; margin:60px auto 0 auto; padding:24px 18px; background:#fff; border:1px solid #ccc; box-shadow:2px 2px 8px #eee; text-align:center;">
+    <img src="{{ profile.avatar }}" alt="Avatar" style="width:120px; height:120px; border-radius:60px; border:1px solid #ccc; margin-bottom:12px;" />
+    <h1 style="font-size:1.5em; color:#003366; margin-bottom:6px;">{{ profile.name }}</h1>
+    <div style="color:#888; margin-bottom:14px;">@{{ profile.user.username }}</div>
+    {% if profile.info %}
+    <div style="margin-top:18px; color:#222; text-align:left; white-space:pre-line; font-size:1.05em; line-height:1.5;">
+        {{ profile.info|linebreaksbr }}
     </div>
+    {% endif %}
+    {% if profile.user != user %}
+    <a href="{% url 'start-chat' profile.user.username %}" style="display:inline-block; background:#e0e0e0; color:#003366; border:1px solid #888; border-radius:3px; padding:8px 18px; font-weight:bold; text-decoration:none; margin-top:18px;">
+        Chat with me
+    </a>
+    {% endif %}
 </div>
 
 {% endblock %}

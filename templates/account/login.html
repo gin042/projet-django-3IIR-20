@@ -1,34 +1,66 @@
-{% extends "account/base_entrance.html" %}
-{% load i18n %}
-{% load allauth account %}
-{% block head_title %}
-    {% trans "Login" %}
-{% endblock head_title %}
+{% extends "account/base_entrance.html" %} {% load i18n %} {% load allauth
+account %} {% block head_title %} {% trans "Login" %} {% endblock head_title %}
 {% block content %}
-    <h1>Login</h1>
-    <p>
-        If you have not created an account yet, then please
-    <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}">sign up</a> first.
-    </p>
-    {% url 'account_login' as login_url %}
-    {% element form form=form method="post" action=login_url tags="entrance,login" %}
-        {% slot body %}
-            {% csrf_token %}
-            {% element fields form=form unlabeled=True %}
-            {% endelement %}
-            {% if redirect_field_value %}
-                <input type="hidden"
-                       name="{{ redirect_field_name }}"
-                       value="{{ redirect_field_value }}" />
-            {% endif %}
-        {% endslot %}
-        {% slot actions %}
-            {% element button type="submit" tags="prominent,login" %}
-                {% trans "Sign In" %}
-            {% endelement %}
-        {% endslot %}
-    {% endelement %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+<h1
+  style="
+    font-size: 2em;
+    color: #003366;
+    border-bottom: 2px solid #003366;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  "
+>
+  {% trans "Login" %}
+</h1>
+<p style="color: #444; font-size: 1.1em; margin-bottom: 18px">
+  {% trans "If you have not created an account yet, then please" %}
+  <a
+    href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}"
+    style="color: #003366; text-decoration: underline"
+  >
+    {% trans "sign up" %}
+  </a>
+  {% trans "first." %}
+</p>
+<div
+  style="
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 24px 18px;
+    max-width: 400px;
+    margin: 0 auto;
+  "
+>
+  <form method="post" action="{% url 'account_login' %}">
+    {% csrf_token %} {{ form.as_p }} {% if redirect_field_value %}
+    <input
+      type="hidden"
+      name="{{ redirect_field_name }}"
+      value="{{ redirect_field_value }}"
+    />
     {% endif %}
+    <div style="margin-top: 18px">
+      <button
+        type="submit"
+        style="
+          background: #e0e0e0;
+          color: #003366;
+          border: 1px solid #888;
+          border-radius: 3px;
+          padding: 8px 18px;
+          font-weight: bold;
+          cursor: pointer;
+        "
+      >
+        {% trans "Sign In" %}
+      </button>
+    </div>
+  </form>
+  {% if SOCIALACCOUNT_ENABLED %}
+  <div style="margin-top: 24px">
+    {% include "socialaccount/snippets/login.html" with page_layout="entrance"
+    %}
+  </div>
+  {% endif %}
+</div>
 {% endblock content %}

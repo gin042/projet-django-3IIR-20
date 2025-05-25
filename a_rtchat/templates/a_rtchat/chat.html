@@ -2,95 +2,72 @@
 
 {% block content %}
 
-<wrapper class="block max-w-2xl mx-auto my-10 px-6">
+<div style="max-width:700px; margin:40px auto; padding:0;">
   {% if chat_groups.groupchat_name %}
-  <div class="flex justify-between">
-    <h2>{{ chat_groups.groupchat_name }}</h2>
-    {% if user == chat_groups.admin %}
-    <a
-      href="{% url 'edit-chatroom' chat_groups.group_name %}"
-      class="text-blue-500 hover:underline"
-      >Edit</a
-    >
-    {% endif %}
-  </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h2 style="font-size:1.3em; color:#003366;">{{ chat_groups.groupchat_name }}</h2>
+      {% if user == chat_groups.admin %}
+        <a href="{% url 'edit-chatroom' chat_groups.group_name %}" style="color:#003366; text-decoration:underline; font-weight:bold;">Edit</a>
+      {% endif %}
+    </div>
   {% endif %}
-  
-  <div
-    id="chat_window"
-    class="h-[45rem] flex flex-col bg-gray-800 rounded-2xl shadow-2xl relative p-1"
-  >
-    <div class="flex justify-center text-emerald-400 bg-gray-800 p-2 sticky top-0 z-10">
+
+  <div style="height:600px; background:#f9f9f9; border:1px solid #ccc; border-radius:8px; box-shadow:2px 2px 8px #eee; display:flex; flex-direction:column; position:relative;">
+    <div style="background:#e0e0e0; color:#003366; padding:10px; border-bottom:1px solid #ccc; position:sticky; top:0; z-index:10;">
       {% if other_user %}
-      <a href="{% url 'profile' other_user.username %}">
-        <div class="flex items-center gap-2 p-4">
-          <img
-            class="w-10 h-10 rounded-full object-cover"
-            src="{{ other_user.profile.avatar }}"
-            alt="{{ other_user.username }}'s avatar"
-          />
-          <div>
-            <span class="font-bold text-white">{{ other_user.profile.name }}</span>
-            <span class="text-sm font-light text-gray-400">@{{ other_user.username }}</span>
-          </div>
-        </div>
-      </a>
+        <a href="{% url 'profile' other_user.username %}" style="color:#003366; text-decoration:none;">
+          <img src="{{ other_user.profile.avatar }}" alt="{{ other_user.username }}'s avatar" style="width:40px; height:40px; border-radius:20px; border:1px solid #ccc; vertical-align:middle; margin-right:10px;">
+          <span style="font-weight:bold;">{{ other_user.profile.name }}</span>
+          <span style="color:#888; font-size:0.95em;">@{{ other_user.username }}</span>
+        </a>
       {% elif chat_groups.groupchat_name %}
-      <ul id="groupchat_members" class="flex gap-4">
-        {% for member in chat_groups.members.all %}
-        <li>
-          <a
-            href="{% url 'profile' member.username %}"
-            class="flex flex-col text-gray-400 items-center justify-center w-20 gap-2"
-          >
-            <img
-              src="{{ member.profile.avatar }}"
-              alt="{{ member.username }}'s avatar"
-              class="w-14 h-14 rounded-full object-cover"
-            />
-            {{ member.profile.name|slice:":10" }}
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
+        <div>
+          <span style="font-weight:bold;">Members:</span>
+          {% for member in chat_groups.members.all %}
+            <a href="{% url 'profile' member.username %}" style="color:#003366; text-decoration:underline; margin-right:12px;">
+              <img src="{{ member.profile.avatar }}" alt="{{ member.username }}'s avatar" style="width:28px; height:28px; border-radius:14px; border:1px solid #ccc; vertical-align:middle; margin-right:4px;">
+              {{ member.profile.name|slice:":10" }}
+            </a>
+          {% endfor %}
+        </div>
       {% else %}
-      <span id="online-count" class="pr-1">{{ chat_groups.members.count }} online</span>
+        <span id="online-count" style="color:#003366; font-weight:bold;">{{ chat_groups.members.count }} online</span>
       {% endif %}
     </div>
 
-    <div id="chat_container" class="overflow-y-auto grow">
-      <ul id="chat_messages" class="flex flex-col justify-end gap-2 p-4">
+    <div id="chat_container" style="overflow-y:auto; flex:1 1 auto; padding:18px 14px;">
+      <ul id="chat_messages" style="list-style:none; margin:0; padding:0;">
         {% for message in chat_messages reversed %}
           {% include 'a_rtchat/chat_message.html' %}
         {% endfor %}
       </ul>
     </div>
 
-    <div class="sticky bottom-0 z-10 p-2 bg-gray-800">
-      <div class="flex items-center rounded-xl px-2 py-2">
-        <form
-          id="chat_message_form"
-          hx-ext="ws"
-          ws-connect="/ws/chatroom/{{chatroom_name}}"
-          ws-send
-          _="on htmx:wsAfterSend reset() me"
-          class="w-full"
-        >
-          {% csrf_token %}
-          {{ form }}
-        </form>
-      </div>
+    <div style="position:sticky; bottom:0; background:#e0e0e0; padding:12px; border-top:1px solid #ccc;">
+      <form
+        id="chat_message_form"
+        hx-ext="ws"
+        ws-connect="/ws/chatroom/{{chatroom_name}}"
+        ws-send
+        _="on htmx:wsAfterSend reset() me"
+        style="margin:0;"
+      >
+        {% csrf_token %}
+        {{ form }}
+      </form>
     </div>
   </div>
-</wrapper>
-{% endblock %}
+</div>
 
+{% endblock %}
 
 {% block javascript %}
 <script>
   function scrollToBottom() {
-    const chatContainer = document.getElementById("chat_container");
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    var chatContainer = document.getElementById("chat_container");
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
   }
   scrollToBottom();
 </script>

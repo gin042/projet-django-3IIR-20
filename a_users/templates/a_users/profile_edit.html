@@ -3,55 +3,60 @@
 {% block content %}
 
 {% if onboarding %}
-<h1 class="mb-4">Complete your Profile</h1>
+<h1 style="font-size:1.5em; color:#003366; border-bottom:2px solid #003366; margin-bottom:18px; padding-bottom:6px;">
+    Complete your Profile
+</h1>
 {% else %}
-<h1 class="mb-4">Edit your Profile</h1>
+<h1 style="font-size:1.5em; color:#003366; border-bottom:2px solid #003366; margin-bottom:18px; padding-bottom:6px;">
+    Edit your Profile
+</h1>
 {% endif %}
 
-<div class="text-center flex flex-col items-center">
-    <img id="avatar" class="w-36 h-36 rounded-full object-cover my-4" src="{{ user.profile.avatar }}" />
-    <div class="text-center max-w-md">
-        <h1 id="displayname">{{ user.profile.displayname|default:"" }}</h1>
-        <div class="text-gray-400 mb-2 -mt-3">@{{ user.username }}</div>
+<div style="text-align:center; margin-bottom:18px;">
+    <img id="avatar" src="{{ user.profile.avatar }}" style="width:120px; height:120px; border-radius:60px; border:1px solid #ccc; margin-bottom:10px;" />
+    <div style="max-width:320px; margin:0 auto;">
+        <h2 id="displayname" style="font-size:1.2em; margin:8px 0 2px 0; color:#003366;">{{ user.profile.displayname|default:"" }}</h2>
+        <div style="color:#888; margin-bottom:8px;">@{{ user.username }}</div>
     </div>
 </div>
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" style="max-width:400px; margin:0 auto;">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" >Submit</button>
+    <button type="submit" style="background:#e0e0e0; color:#003366; border:1px solid #888; border-radius:3px; padding:8px 18px; font-weight:bold; cursor:pointer;">
+        Submit
+    </button>
     {% if onboarding %}
-    <a class="button button-gray ml-1" href="{% url 'home' %}">Skip</a>
+    <a href="{% url 'home' %}" style="background:#e0e0e0; color:#003366; border:1px solid #888; border-radius:3px; padding:8px 18px; font-weight:bold; text-decoration:none; margin-left:8px;">
+        Skip
+    </a>
     {% else %}
-    <a class="button button-gray ml-1" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+    <a href="{{ request.META.HTTP_REFERER }}" style="background:#e0e0e0; color:#003366; border:1px solid #888; border-radius:3px; padding:8px 18px; font-weight:bold; text-decoration:none; margin-left:8px;">
+        Cancel
+    </a>
     {% endif %}
 </form>
 
-
-
-
 <script>
-    
     // This updates the avatar
     const fileInput = document.querySelector('input[type="file"]');
-
-    fileInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    const image = document.querySelector('#avatar');
-
-    if (file && file.type.includes('image')) {
-        const url = URL.createObjectURL(file);
-        image.src = url;
+    if (fileInput) {
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            const image = document.querySelector('#avatar');
+            if (file && file.type.includes('image')) {
+                const url = URL.createObjectURL(file);
+                image.src = url;
+            }
+        });
     }
-    });
-
     // This updates the name
     const display_nameInput = document.getElementById('id_displayname');
     const display_nameOutput = document.getElementById('displayname');
-
-    display_nameInput.addEventListener('input', (event) => {
-        display_nameOutput.innerText = event.target.value;
-    });
-
+    if (display_nameInput && display_nameOutput) {
+        display_nameInput.addEventListener('input', (event) => {
+            display_nameOutput.innerText = event.target.value;
+        });
+    }
 </script>
 
 {% endblock %}
