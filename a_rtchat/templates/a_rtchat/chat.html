@@ -3,41 +3,95 @@
 {% block content %}
 
 <wrapper class="block max-w-2xl mx-auto my-10 px-6">
-    <div id="chat_window" class="h-[45rem] flex flex-col bg-gray-800 rounded-2xl shadow-2xl relative p-1">
-        <div class="flex justify-center text-emerald-400 bg-gray-800 p-2 sticky top-0 z-10">
-            <span id="online-count" class="pr-1"></span>online
+  {% if chat_groups.groupchat_name %}
+  <div class="flex justify-between">
+    <h2>{{ chat_groups.groupchat_name }}</h2>
+    {% if user == chat_groups.admin %}
+    <a
+      href="{% url 'edit-chatroom' chat_groups.group_name %}"
+      class="text-blue-500 hover:underline"
+      >Edit</a
+    >
+    {% endif %}
+  </div>
+  {% endif %}
+  
+  <div
+    id="chat_window"
+    class="h-[45rem] flex flex-col bg-gray-800 rounded-2xl shadow-2xl relative p-1"
+  >
+    <div class="flex justify-center text-emerald-400 bg-gray-800 p-2 sticky top-0 z-10">
+      {% if other_user %}
+      <a href="{% url 'profile' other_user.username %}">
+        <div class="flex items-center gap-2 p-4">
+          <img
+            class="w-10 h-10 rounded-full object-cover"
+            src="{{ other_user.profile.avatar }}"
+            alt="{{ other_user.username }}'s avatar"
+          />
+          <div>
+            <span class="font-bold text-white">{{ other_user.profile.name }}</span>
+            <span class="text-sm font-light text-gray-400">@{{ other_user.username }}</span>
+          </div>
         </div>
-        <div id='chat_container' class="overflow-y-auto grow">
-            <ul id='chat_messages' class="flex flex-col justify-end gap-2 p-4">
-                {% for message in chat_messages reversed%}
-                {% include 'a_rtchat/chat_message.html' %}
-                {% endfor %}
-
-            </ul>
-        </div>
-        <div class="sticky bottom-0 z-10 p-2 bg-gray-800">
-            <div class="flex items-center rounded-xl px-2 py-2">
-                <form id="chat_message_form" hx-ext="ws" ws-connect="/ws/chatroom/public-chat" ws-send  _="on htmx:wsAfterSend reset() me" class="w-full">
-                    {% csrf_token %}
-                    {{ form }}
-                </form>
-            </div>
-        </div>
+      </a>
+      {% elif chat_groups.groupchat_name %}
+      <ul id="groupchat_members" class="flex gap-4">
+        {% for member in chat_groups.members.all %}
+        <li>
+          <a
+            href="{% url 'profile' member.username %}"
+            class="flex flex-col text-gray-400 items-center justify-center w-20 gap-2"
+          >
+            <img
+              src="{{ member.profile.avatar }}"
+              alt="{{ member.username }}'s avatar"
+              class="w-14 h-14 rounded-full object-cover"
+            />
+            {{ member.profile.name|slice:":10" }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <span id="online-count" class="pr-1">{{ chat_groups.members.count }} online</span>
+      {% endif %}
     </div>
+
+    <div id="chat_container" class="overflow-y-auto grow">
+      <ul id="chat_messages" class="flex flex-col justify-end gap-2 p-4">
+        {% for message in chat_messages reversed %}
+          {% include 'a_rtchat/chat_message.html' %}
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="sticky bottom-0 z-10 p-2 bg-gray-800">
+      <div class="flex items-center rounded-xl px-2 py-2">
+        <form
+          id="chat_message_form"
+          hx-ext="ws"
+          ws-connect="/ws/chatroom/{{chatroom_name}}"
+          ws-send
+          _="on htmx:wsAfterSend reset() me"
+          class="w-full"
+        >
+          {% csrf_token %}
+          {{ form }}
+        </form>
+      </div>
+    </div>
+  </div>
 </wrapper>
 {% endblock %}
 
 
 {% block javascript %}
 <script>
-
-    function scrollToBottom() {
-        const chatContainer = document.getElementById('chat_container');
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
-    scrollToBottom();
+  function scrollToBottom() {
+    const chatContainer = document.getElementById("chat_container");
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+  scrollToBottom();
 </script>
-{% endblock %} 
-
-
-
+{% endblock %}
